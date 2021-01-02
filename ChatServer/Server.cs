@@ -63,14 +63,9 @@ namespace ChatServer
     private void OnMessageCreated(Guid sender, string message)
     {
       Console.WriteLine("{0} says {1}", sender, message);
-      _clientPool.Broadcast(sender, message);
-      StoreMessage(sender, message);
-    }
-
-    private void StoreMessage(Guid sender, string message)
-    {
       lock (_syncRoot)
       {
+        _clientPool.Broadcast(sender, message);
         _store.AddMessage(sender, message);
       }
     }
